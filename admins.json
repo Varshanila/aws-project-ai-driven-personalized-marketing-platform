@@ -1,0 +1,7 @@
+{
+  "admin@company.com": {
+    "password": "scrypt:32768:8:1$AZv5J5IMPBilP161$92d668df556671bfda836c91958975fc1649ffefcb910ecfaf73acba5af43e2b1b67117e9aab949c62fe61a42917b251eae4d135a6b439c74eb288ff7ba0acef",
+    "name": "Admin",
+    "role": "admin"
+  }
+}
