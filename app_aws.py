@@ -17,7 +17,7 @@ user_table = dynamodb.Table('UserTable')
 admin_table = dynamodb.Table('AdminTable')
 campaign_table = dynamodb.Table('CampaignsTable')
 
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:YOUR-REAL-ACCOUNT-ID:aws-ai-marketing-alerts'
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:539247489202:Aws_Marketing'
 
 def send_sns(subject, message):
     try:
