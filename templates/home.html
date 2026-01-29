@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS AI-Driven Personalized Marketing Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        /* ---------- NAVBAR ---------- */
+        nav {
+            width: 100%;
+            background-color: #0b1c2d;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        nav .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            margin-left: 18px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            background-color: #1f3a5a;
+        }
+
+        nav .nav-links .admin {
+            background-color: #ff9800;
+            color: #000;
+        }
+
+        /* ---------- HERO SECTION ---------- */
+        .hero {
+            background: linear-gradient(to right, #0b1c2d, #123a63);
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 900px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* ---------- CONTENT SECTION ---------- */
+        .container {
+            padding: 60px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #0b1c2d;
+        }
+
+        .aws-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .service-card h3 {
+            color: #123a63;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            background-color: #0b1c2d;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">AWS AI Marketing Platform</div>
+    <div class="nav-links">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="login.html">User Login</a>
+        <a href="admin_login.html" class="admin">Admin Login</a>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <h1>AWS AI-Driven Personalized Marketing Platform</h1>
+    <p>
+        This project focuses on building an intelligent marketing platform using
+        Artificial Intelligence concepts and Amazon Web Services (AWS).
+        The system delivers personalized marketing campaigns by analyzing user behavior,
+        preferences, and interaction patterns, helping businesses improve engagement
+        and conversion rates.
+    </p>
+</section>
+
+<!-- AWS SERVICES SECTION -->
+<section class="container">
+    <h2 class="section-title">AWS Services Used</h2>
+
+    <div class="aws-services">
+        <div class="service-card">
+            <h3>Amazon EC2</h3>
+            <p>
+                Amazon EC2 is used to deploy and host the Flask-based web application.
+                It provides scalable and reliable computing power for running the platform.
+            </p>
+        </div>
+
+        <div class="service-card">
+            <h3>Amazon DynamoDB</h3>
+            <p>
+                DynamoDB is used as a NoSQL database to store user details, login information,
+                and marketing campaign data with high performance and scalability.
+            </p>
+        </div>
+
+        <div class="service-card">
+            <h3>Amazon SNS</h3>
+            <p>
+                Amazon SNS is used to send email notifications and alerts for user
+                registrations, login activities, and campaign updates.
+            </p>
+        </div>
+
+        <div class="service-card">
+            <h3>AWS IAM</h3>
+            <p>
+                AWS IAM manages secure access, roles, and permissions, ensuring that
+                only authorized users and services can access AWS resources.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    © 2026 AWS AI-Driven Personalized Marketing Platform | Student Project
+</footer>
+
+</body>
+</html>
