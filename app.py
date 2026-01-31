@@ -172,6 +172,7 @@ def admin_login_submit():
     if admin and check_password_hash(admin["password"], password):
         session["user_email"] = email
         session["role"] = "admin"
+        return redirect(url_for("dashboard"))
         send_sns("👑 ADMIN LOGIN", f"Admin {email} logged in")
         return redirect(url_for("admin_home"))
 
