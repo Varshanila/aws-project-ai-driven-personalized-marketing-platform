@@ -14,10 +14,23 @@ AWS_REGION = "us-east-1"
 
 # ---------------- AWS SETUP ---------------- #
 dynamodb = boto3.resource("dynamodb", region_name=AWS_REGION)
+sns = boto3.client("sns", region_name=AWS_REGION)
 
 USER_TABLE = dynamodb.Table("UserTable")
 ADMIN_TABLE = dynamodb.Table("AdminTable")
 CAMPAIGN_TABLE = dynamodb.Table("CampaignsTable")
+
+SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:539247489202:Demo_aws_ai:110618e2-20f4-4ecb-b604-373a1957a6a5"
+def send_sns(subject, message):
+    try:
+        sns.publish(
+            TopicArn=SNS_TOPIC_ARN,
+            Subject=subject,
+            Message=message
+        )
+        print("✅ SNS sent:", subject)
+    except Exception as e:
+        print("❌ SNS failed:", e)
 
 # ---------------- DECORATORS ---------------- #
 def login_required(f):
@@ -138,6 +151,11 @@ def signup_submit():
         "contact": contact,
         "created_at": datetime.utcnow().isoformat()
     })
+    send_sns(
+        "🆕 NEW USER SIGNUP",
+        f"New user registered:\nEmail: {email}\nName: {full_name}"
+    )
+
 
     flash("Signup successful. Please login.")
     return redirect(url_for("login"))
@@ -152,6 +170,7 @@ def admin_login_submit():
     if admin and check_password_hash(admin["password"], password):
         session["user_email"] = email
         session["role"] = "admin"
+        send_sns("👑 ADMIN LOGIN", f"Admin {email} logged in")
         return redirect(url_for("admin_home"))
 
     flash("Invalid admin credentials")
@@ -170,6 +189,11 @@ def generate_campaign():
         "status": "Active",
         "created_at": datetime.utcnow().isoformat()
     })
+    send_sns(
+        subject="📢 New Campaign Created",
+        message=f"User {session['user_email']} created a campaign.\nCampaign ID: {campaign_id}\nInterest: {interest}"
+    )
+
 
     return jsonify({"status": "success"})
 
