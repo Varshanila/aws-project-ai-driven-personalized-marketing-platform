@@ -81,7 +81,15 @@ def home():
 @app.route("/admin_login.html")
 def admin_login():
     return render_template("admin_login.html")
-
+    
+@app.route("/dashboard")
+@app.route("/dashboard.html")
+@login_required
+def dashboard():
+    response = CAMPAIGN_TABLE.scan()
+    campaigns = [c for c in response.get("Items", []) if c.get("user_email") == session["user_email"]]
+    return render_template("dashboard.html", campaigns=campaigns)
+    
 @app.route("/admin_home")
 @app.route("/admin_home.html")
 @admin_required
@@ -90,13 +98,7 @@ def admin_home():
     campaigns = CAMPAIGN_TABLE.scan().get("Items", [])
     return render_template("admin_home.html", users=users, campaigns=campaigns)
 
-@app.route("/dashboard")
-@app.route("/dashboard.html")
-@login_required
-def dashboard():
-    response = CAMPAIGN_TABLE.scan()
-    campaigns = [c for c in response.get("Items", []) if c.get("user_email") == session["user_email"]]
-    return render_template("dashboard.html", campaigns=campaigns)
+
 
 @app.route("/campaign")
 @app.route("/campaign.html")
