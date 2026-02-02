@@ -4,12 +4,10 @@ from functools import wraps
 from datetime import datetime
 import boto3
 import uuid
-import os
 
 # ---------------- BASIC APP SETUP ---------------- #
 app = Flask(__name__)
 app.secret_key = "aws-ai-marketing-platform-2026-secret-key"
-
 AWS_REGION = "us-east-1"
 
 # ---------------- AWS SETUP ---------------- #
@@ -21,6 +19,8 @@ ADMIN_TABLE = dynamodb.Table("AdminTable")
 CAMPAIGN_TABLE = dynamodb.Table("CampaignsTable")
 
 SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:539247489202:Demo_aws_ai:110618e2-20f4-4ecb-b604-373a1957a6a5"
+
+# ---------------- SNS FUNCTION ---------------- #
 def send_sns(subject, message):
     try:
         sns.publish(
@@ -28,9 +28,8 @@ def send_sns(subject, message):
             Subject=subject,
             Message=message
         )
-        print("✅ SNS sent:", subject)
     except Exception as e:
-        print("❌ SNS failed:", e)
+        print("SNS Error:", e)
 
 # ---------------- DECORATORS ---------------- #
 def login_required(f):
@@ -81,26 +80,26 @@ def home():
 @app.route("/admin_login.html")
 def admin_login():
     return render_template("admin_login.html")
-    
+
+# ---------------- ADMIN DASHBOARD ---------------- #
 @app.route("/dashboard")
 @app.route("/dashboard.html")
 @admin_required
 def dashboard():
     response = CAMPAIGN_TABLE.scan()
-    campaigns = [c for c in response.get("Items", []) 
-                 if c.get("user_email") == session["user_email"]]
+    campaigns = response.get("Items", [])
     return render_template("dashboard.html", campaigns=campaigns)
-    
-@app.route("/admin_home")
-@app.route("/admin_home.html")
+
+# ---------------- CAMPAIGN HISTORY ---------------- #
+@app.route("/campaign_history")
+@app.route("/campaign_history.html")
 @admin_required
-def admin_home():
-    users = USER_TABLE.scan().get("Items", [])
-    campaigns = CAMPAIGN_TABLE.scan().get("Items", [])
-    return render_template("admin_home.html", users=users, campaigns=campaigns)
+def campaign_history():
+    response = CAMPAIGN_TABLE.scan()
+    campaigns = response.get("Items", [])
+    return render_template("campaign_history.html", campaigns=campaigns)
 
-
-
+# ---------------- CAMPAIGN PAGE ---------------- #
 @app.route("/campaign")
 @app.route("/campaign.html")
 @login_required
@@ -108,8 +107,7 @@ def campaign():
     return render_template("campaign.html")
 
 # ---------------- FORM HANDLERS ---------------- #
-
-# ✅ USER LOGIN (login.html)
+# USER LOGIN
 @app.route("/api/login-submit", methods=["POST"])
 def login_submit():
     email = request.form.get("email", "").lower()
@@ -130,7 +128,7 @@ def login_submit():
     flash("Invalid credentials")
     return redirect(url_for("login"))
 
-# ✅ USER SIGNUP (signup.html)
+# USER SIGNUP
 @app.route("/api/signup-submit", methods=["POST"])
 def signup_submit():
     email = request.form.get("signupEmail", "").lower()
@@ -154,22 +152,18 @@ def signup_submit():
         "contact": contact,
         "created_at": datetime.utcnow().isoformat()
     })
-    send_sns(
-        "🆕 NEW USER SIGNUP",
-        f"New user registered:\nEmail: {email}\nName: {full_name}"
-    )
 
-
+    send_sns("New User Signup", f"User: {email}")
     flash("Signup successful. Please login.")
     return redirect(url_for("login"))
 
-# ✅ ADMIN LOGIN (admin_login.html)
+# ADMIN LOGIN
 @app.route("/api/admin-login-submit", methods=["POST"])
 def admin_login_submit():
     email = request.form.get("adminEmail", "").lower()
     password = request.form.get("adminPassword", "")
+
     admin = ADMIN_TABLE.get_item(Key={"email": email}).get("Item")
-    
     if admin and check_password_hash(admin["password"], password):
         session["user_email"] = email
         session["role"] = "admin"
@@ -178,7 +172,7 @@ def admin_login_submit():
     flash("Invalid admin credentials")
     return redirect(url_for("admin_login"))
 
-# ✅ CREATE CAMPAIGN
+# CREATE CAMPAIGN
 @app.route("/api/generate-campaign", methods=["POST"])
 @login_required
 def generate_campaign():
@@ -191,11 +185,6 @@ def generate_campaign():
         "status": "Active",
         "created_at": datetime.utcnow().isoformat()
     })
-    send_sns(
-        subject="📢 New Campaign Created",
-        message=f"User {session['user_email']} created a campaign.\nCampaign ID: {campaign_id}\nInterest: {interest}"
-    )
-
 
     return jsonify({"status": "success"})
 
@@ -207,7 +196,4 @@ def logout():
 
 # ---------------- RUN APP ---------------- #
 if __name__ == "__main__":
-    print("🚀 FINAL MERGED APP RUNNING")
-    print("👑 Admin login from DynamoDB")
-    print("👤 User signup/login stored in DynamoDB")
     app.run(host="0.0.0.0", port=5000, debug=True)
