@@ -114,11 +114,13 @@ body{
             <h1>⚙️ Admin Dashboard</h1>
         </div>
         <div class="nav-links">
-            <a href="index.html">🏠 Home</a>
-            <a href="dashboard.html" class="active">📊 Dashboard</a>
-            <a href="campaign.html">🚀 Campaign</a>
-            <a href="campaign_history.html">📋 History</a>
-            <a href="index.html" class="logout-btn">Logout</a>
+          
+            <a href="{{ url_for('index') }}">🏠 Home</a>
+            <a href="{{ url_for('dashboard') }}" class="active">📊 Dashboard</a>
+            <a href="{{ url_for('campaign') }}">🚀 Campaign</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            <a href="{{ url_for('campaign_history') }}">📋 History</a>
+            
         </div>
     </div>
 </nav>
