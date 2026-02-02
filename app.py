@@ -84,7 +84,7 @@ def admin_login():
     
 @app.route("/dashboard")
 @app.route("/dashboard.html")
-@login_required
+@admin_required
 def dashboard():
     response = CAMPAIGN_TABLE.scan()
     campaigns = [c for c in response.get("Items", []) if c.get("user_email") == session["user_email"]]
