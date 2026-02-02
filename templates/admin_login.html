@@ -1,57 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Admin Login</title>
-<style>
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-.box{
-    background:white;
-    padding:40px;
-    border-radius:16px;
-    width:380px;
-    box-shadow:0 20px 40px rgba(0,0,0,.2);
-}
-h2{text-align:center;margin-bottom:10px}
-p{text-align:center;color:#666;margin-bottom:25px}
-input{
-    width:100%;
-    padding:14px;
-    margin-bottom:16px;
-    border-radius:10px;
-    border:1px solid #ccc;
-}
-button{
-    width:100%;
-    padding:14px;
-    background:#ef4444;
-    border:none;
-    color:white;
-    font-size:16px;
-    border-radius:12px;
-    cursor:pointer;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            padding: 45px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 22px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ef4444;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(239,68,68,0.4);
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="box">
+<div class="card">
     <h2>🔐 Admin Login</h2>
     <p>Enter admin credentials</p>
 
-    <form method="POST" action="/api/admin-login-submit">
-        <input type="email" name="adminEmail" placeholder="Admin Email" required>
-        <input type="password" name="adminPassword" placeholder="Password" required>
+    <!-- IMPORTANT: NO JS, NO onclick -->
+    <form action="/api/admin-login-submit" method="POST">
+        <label>Email</label>
+        <input type="email" name="adminEmail" required>
+
+        <label>Password</label>
+        <input type="password" name="adminPassword" required>
+
         <button type="submit">Login to Dashboard</button>
     </form>
 </div>
 
 </body>
 </html>
+
