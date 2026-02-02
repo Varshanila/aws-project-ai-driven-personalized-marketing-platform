@@ -87,7 +87,8 @@ def admin_login():
 @admin_required
 def dashboard():
     response = CAMPAIGN_TABLE.scan()
-    campaigns = [c for c in response.get("Items", []) if c.get("user_email") == session["user_email"]]
+    campaigns = [c for c in response.get("Items", []) 
+                 if c.get("user_email") == session["user_email"]]
     return render_template("dashboard.html", campaigns=campaigns)
     
 @app.route("/admin_home")
@@ -167,8 +168,8 @@ def signup_submit():
 def admin_login_submit():
     email = request.form.get("adminEmail", "").lower()
     password = request.form.get("adminPassword", "")
-
     admin = ADMIN_TABLE.get_item(Key={"email": email}).get("Item")
+    
     if admin and check_password_hash(admin["password"], password):
         session["user_email"] = email
         session["role"] = "admin"
