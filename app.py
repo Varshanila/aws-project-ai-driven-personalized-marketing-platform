@@ -173,7 +173,7 @@ def admin_login_submit():
         session["user_email"] = email
         session["role"] = "admin"
      
-        send_sns("👑 ADMIN LOGIN", f"Admin {email} logged in")
+        
         return redirect(url_for("dashboard"))
 
     flash("Invalid admin credentials")
